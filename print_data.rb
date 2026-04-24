@@ -1,0 +1,57 @@
+# frozen_string_literal: true
+
+# Different filters' definitions specific to commands
+module PrintData
+  def self.print_metrics(result)
+    return puts 'No data found' if result.nil?
+
+    h_city, h_date, h_val = result[:highest]
+    l_city, l_date, l_val = result[:lowest]
+    hu_city, hu_date, hu_val = result[:humid]
+
+    puts "Highest: #{h_val[:max_temp]}C on #{h_date} at #{h_city}"
+    puts "Lowest: #{l_val[:min_temp]}C on #{l_date} at #{l_city}"
+    puts "Humid: #{hu_val[:humidity]}% on #{hu_date} at #{hu_city}"
+  end
+
+  def self.print_chart_data(chart_data, city_name, month_name, year)
+    city_data = chart_data[city_name&.capitalize]
+
+    if chart_data.empty? || city_data.nil? || city_data.empty?
+      puts 'No data found'
+    else
+      print_chart(chart_data, month_name, year)
+    end
+  end
+
+  def self.print_chart(data, month_name, year)
+    puts "#{month_name} #{year}"
+
+    data.each do |city, daily|
+      print_city(city, daily)
+    end
+  end
+
+  def self.print_city(city, daily)
+    puts "City: #{city}"
+
+    daily.sort.each do |day, temps|
+      print_day(day, temps)
+    end
+  end
+
+  def self.print_day(day, temps)
+    low_bar  = blue('+' * temps[:min].to_i.abs)
+    high_bar = red('+' * temps[:max].to_i.abs)
+
+    puts "#{day} #{low_bar}#{high_bar} #{temps[:min]}C-#{temps[:max]}C"
+  end
+
+  def self.red(text)
+    "\e[31m#{text}\e[0m"
+  end
+
+  def self.blue(text)
+    "\e[34m#{text}\e[0m"
+  end
+end
