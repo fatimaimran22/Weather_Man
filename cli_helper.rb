@@ -34,7 +34,7 @@ class CommandLineData
   end
 
   def validate!(command, date, path)
-    return if valid_path?(path) && valid_command_and_date?(command, date, path) && valid_area?(path)
+    return if valid_path?(path) && valid_command_and_date?(command, date) && valid_area?(path)
 
     puts 'Invalid path! Enter: '
     puts 'ruby weatherman.rb -e YEAR /data'
