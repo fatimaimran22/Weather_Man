@@ -31,9 +31,4 @@ end
 
 commands = CommandLineData.new
 weather = WeatherMan.new
-# puts commands.command = '-c'
-# puts commands.area = 'lahore'
-# puts commands.year = '2004'
-# puts commands.month = '7'
 weather.run(commands.command, commands.area, commands.year, commands.month)
-# weather.run('-c', 'murree', '2004', '7')

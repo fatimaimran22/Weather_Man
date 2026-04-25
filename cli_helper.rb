@@ -9,9 +9,6 @@ class CommandLineData
     @command = ARGV[0]
     @date = ARGV[1]
     @path = ARGV[2]
-    # @command = '-e'
-    # @date = '2015/7'
-    # @path = '/data'
     validate!(@command, @date, @path)
     @year = extract_year(@date)
     @month = extract_month(@date)
