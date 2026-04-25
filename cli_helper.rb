@@ -19,7 +19,7 @@ class CommandLineData
     path&.match?(%r{^/?data(/[a-zA-Z]+)?$})
   end
 
-  def valid_command_and_date?(command, date, path)
+  def valid_command_and_date?(command, date)
     return date.include?('/') if ['-a', '-c'].include?(command)
 
     true
