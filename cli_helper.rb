@@ -9,6 +9,9 @@ class CommandLineData
     @command = ARGV[0]
     @date = ARGV[1]
     @path = ARGV[2]
+    # @command = '-e'
+    # @date = '2015/7'
+    # @path = '/data'
     validate!(@command, @date, @path)
     @year = extract_year(@date)
     @month = extract_month(@date)
@@ -19,7 +22,12 @@ class CommandLineData
     path&.match?(%r{^/?data(/[a-zA-Z]+)?$})
   end
 
-  def valid_command_and_date?(command, date)
+  def valid_command_and_date?(command, date, path)
+    if command == '-c'
+      area = path.split('/').last
+      return VALID_CITIES.include?(area)
+    end
+
     return date.include?('/') if ['-a', '-c'].include?(command)
 
     true
@@ -33,12 +41,14 @@ class CommandLineData
   end
 
   def validate!(command, date, path)
-    return if valid_path?(path) && valid_command_and_date?(command, date) && valid_area?(path)
+    return if valid_path?(path) && valid_command_and_date?(command, date, path) && valid_area?(path)
 
     puts 'Invalid path! Enter: '
     puts 'ruby weatherman.rb -e YEAR /data'
     puts 'ruby weatherman.rb -a YEAR/MONTH /data'
-    puts 'ruby weatherman.rb -c YEAR/MONTH /data or /data/lahore'
+    puts 'ruby weatherman.rb -e YEAR/MONTH /data/lahore'
+    puts 'ruby weatherman.rb -a YEAR/MONTH /data/dubai'
+    puts 'ruby weatherman.rb -c YEAR/MONTH /data/murree'
     exit
   end
 
@@ -54,12 +64,7 @@ class CommandLineData
   end
 
   def extract_area(path)
-    path.split('/').last
+    area = path.split('/').last
+    area == 'data' ? nil : area
   end
 end
-
-commands = CommandLineData.new
-puts commands.month
-puts commands.year
-puts commands.command
-puts commands.area

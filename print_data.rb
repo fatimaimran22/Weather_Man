@@ -2,6 +2,20 @@
 
 # Different filters' definitions specific to commands
 module PrintData
+  MONTHS = {
+    1 => 'January',
+    2 => 'February',
+    3 => 'March',
+    4 => 'April',
+    5 => 'May',
+    6 => 'June',
+    7 => 'July',
+    8 => 'August',
+    9 => 'September',
+    10 => 'October',
+    11 => 'November',
+    12 => 'December'
+  }.freeze
   def self.print_metrics(result)
     return puts 'No data found' if result.nil?
 
@@ -15,9 +29,7 @@ module PrintData
   end
 
   def self.print_chart_data(chart_data, city_name, month_name, year)
-    city_data = chart_data[city_name&.capitalize]
-
-    if chart_data.empty? || city_data.nil? || city_data.empty?
+    if chart_data.empty? || city_name.empty? || chart_data[city_name].empty?
       puts 'No data found'
     else
       print_chart(chart_data, month_name, year)
@@ -25,6 +37,7 @@ module PrintData
   end
 
   def self.print_chart(data, month_name, year)
+    month_name = MONTHS[month_name.to_i]
     puts "#{month_name} #{year}"
 
     data.each do |city, daily|
@@ -35,7 +48,7 @@ module PrintData
   def self.print_city(city, daily)
     puts "City: #{city}"
 
-    daily.sort.each do |day, temps|
+    daily.each do |day, temps|
       print_day(day, temps)
     end
   end

@@ -55,7 +55,7 @@ module DataFilter
   end
 
   def self.extract_day(date)
-    date.split('-')[2].rjust(2, '0')
+    date.split('-')[2]
   end
 
   def self.update_daily(daily, day, values)
