@@ -4,6 +4,40 @@ A command-line Ruby application that parses weather data files and generates tem
 
 ---
 
+## 🧱 Architecture Overview
+
+This project is divided into clear layers:
+
+### 📦 Core Components
+
+#### `CommandLineData`
+- Handles CLI argument parsing and validation  
+- Extracts command, year, month, and area from user input  
+
+#### `WeatherMan`
+- Main controller class  
+- Orchestrates data flow between modules  
+- Decides which report to generate based on command  
+
+#### `DataLoader (Module)`
+- Loads and parses raw weather files  
+- Converts file data into structured Ruby hashes  
+
+#### `DataFilter (Module)`
+- Applies filtering logic based on:
+  - Year / Month  
+  - City selection  
+  - Aggregation rules (min, max, humidity)  
+
+#### `PrintData (Module)`
+- Handles all console output  
+- Formats and prints:
+  - Metrics report  
+  - ASCII bar charts  
+- Includes ANSI color helpers  
+
+---
+
 ## Prerequisites
 
 - Ruby (2.0+)
