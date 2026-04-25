@@ -20,11 +20,6 @@ class CommandLineData
   end
 
   def valid_command_and_date?(command, date, path)
-    if command == '-c'
-      area = path.split('/').last
-      return VALID_CITIES.include?(area)
-    end
-
     return date.include?('/') if ['-a', '-c'].include?(command)
 
     true
@@ -32,6 +27,7 @@ class CommandLineData
 
   def valid_area?(path)
     area = path.split('/').last
+    return false if command == '-c' && area == 'data'
     return true if area == 'data'
 
     VALID_CITIES.include?(area)
