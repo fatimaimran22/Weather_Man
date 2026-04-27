@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'colorize'
 # Different filters' definitions specific to commands
 module PrintData
   MONTHS = {
@@ -32,16 +33,12 @@ module PrintData
     if chart_data.empty? || city_name.empty? || chart_data[city_name].empty?
       puts 'No data found'
     else
-      print_chart(chart_data, month_name, year)
-    end
-  end
+      month_name = MONTHS[month_name.to_i]
+      puts "#{month_name} #{year}"
 
-  def self.print_chart(data, month_name, year)
-    month_name = MONTHS[month_name.to_i]
-    puts "#{month_name} #{year}"
-
-    data.each do |city, daily|
-      print_city(city, daily)
+      chart_data.each do |city, daily|
+        print_city(city, daily)
+      end
     end
   end
 
@@ -54,17 +51,9 @@ module PrintData
   end
 
   def self.print_day(day, temps)
-    low_bar  = blue('+' * temps[:min].to_i.abs)
-    high_bar = red('+' * temps[:max].to_i.abs)
+    low_bar  = ('+' * temps[:min].to_i.abs).blue
+    high_bar = ('+' * temps[:max].to_i.abs).red
 
     puts "#{day} #{low_bar}#{high_bar} #{temps[:min]}C-#{temps[:max]}C"
-  end
-
-  def self.red(text)
-    "\e[31m#{text}\e[0m"
-  end
-
-  def self.blue(text)
-    "\e[34m#{text}\e[0m"
   end
 end
